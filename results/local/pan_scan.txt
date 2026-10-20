@@ -1,0 +1,1 @@
+pan_scan: 1000 PANs searched in 2 files (3858842 bytes): 0 full-PAN hits; masked PANs in log: 7987; positive control: 1000/1000 hits

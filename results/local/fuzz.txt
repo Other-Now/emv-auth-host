@@ -1,0 +1,3 @@
+fuzz_iso8583: 60s, 21125256 execs, cov: 76, 0 crashes
+fuzz_tlv: 60s, 23675232 execs, cov: 35, 0 crashes
+fuzz_engine: 60s, 274134 execs, cov: 859, 0 crashes

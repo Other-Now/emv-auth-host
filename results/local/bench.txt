@@ -1,0 +1,14 @@
+# 2026-10-20T08:57:25Z 6.18.33.2-microsoft-standard-WSL2 cpu: Intel(R) Core(TM) i5-9300H CPU @ 2.40GHz nproc=4
+# fs: ext4 ; 8s per cell; 1000 cards
+sync=full group_commit=on conns=1 txns=7288 seconds=8.0 tps=911 p50_us=940 p90_us=1382 p99_us=3054 p999_us=5950 max_us=32011 approved=7288 other=0 errors=0 batches=7288 msgs=7288 max_batch=1
+sync=full group_commit=on conns=8 txns=21830 seconds=8.0 tps=2727 p50_us=2672 p90_us=4136 p99_us=8986 p999_us=22755 max_us=73203 approved=21830 other=0 errors=0 batches=4513 msgs=21830 max_batch=8
+sync=full group_commit=on conns=32 txns=27920 seconds=8.0 tps=3487 p50_us=7032 p90_us=17141 p99_us=33938 p999_us=67843 max_us=74952 approved=27920 other=0 errors=0 batches=1228 msgs=27920 max_batch=32
+sync=full group_commit=off conns=1 txns=7741 seconds=8.0 tps=968 p50_us=900 p90_us=1274 p99_us=2789 p999_us=5186 max_us=13133 approved=7741 other=0 errors=0 batches=7741 msgs=7741 max_batch=1
+sync=full group_commit=off conns=8 txns=7371 seconds=8.0 tps=920 p50_us=7982 p90_us=12777 p99_us=23310 p999_us=41458 max_us=53972 approved=7371 other=0 errors=0 batches=7371 msgs=7371 max_batch=8
+sync=full group_commit=off conns=32 txns=3529 seconds=8.0 tps=439 p50_us=57350 p90_us=109428 p99_us=298059 p999_us=499024 max_us=534839 approved=3529 other=0 errors=0 batches=3529 msgs=3529 max_batch=32
+sync=normal group_commit=on conns=1 txns=14093 seconds=8.0 tps=1762 p50_us=235 p90_us=366 p99_us=5520 p999_us=19204 max_us=373428 approved=14093 other=0 errors=0 batches=14093 msgs=14093 max_batch=1
+sync=normal group_commit=on conns=8 txns=45477 seconds=8.0 tps=5682 p50_us=858 p90_us=1682 p99_us=12203 p999_us=17577 max_us=33735 approved=45477 other=0 errors=0 batches=9430 msgs=45477 max_batch=8
+sync=normal group_commit=on conns=32 txns=46112 seconds=8.0 tps=5762 p50_us=3335 p90_us=12630 p99_us=23541 p999_us=172214 max_us=184984 approved=46112 other=0 errors=0 batches=1940 msgs=46112 max_batch=32
+sync=normal group_commit=off conns=1 txns=24538 seconds=8.0 tps=3067 p50_us=209 p90_us=306 p99_us=1231 p999_us=9945 max_us=137012 approved=24538 other=0 errors=0 batches=24538 msgs=24538 max_batch=1
+sync=normal group_commit=off conns=8 txns=20080 seconds=8.0 tps=2508 p50_us=1479 p90_us=7434 p99_us=23510 p999_us=39688 max_us=66082 approved=20080 other=0 errors=0 batches=20080 msgs=20080 max_batch=8
+sync=normal group_commit=off conns=32 txns=21638 seconds=8.0 tps=2692 p50_us=5964 p90_us=19515 p99_us=93021 p999_us=481294 max_us=486867 approved=21638 other=0 errors=0 batches=21638 msgs=21638 max_batch=32

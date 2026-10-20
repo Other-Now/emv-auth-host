@@ -1,0 +1,21 @@
+ARQC verify (MK + SK + MAC)           10.06 us
+ARPC                                   0.75 us
+SHA-256 of request                     1.33 us
+HMAC-SHA256 PAN token                  2.65 us
+engine 0200, sync=OFF, batch 32       64.51 us
+engine 0200, sync=FULL, batch 32     100.73 us
+
+ARQC verify (MK + SK + MAC)            9.72 us
+ARPC                                   0.83 us
+SHA-256 of request                     1.06 us
+HMAC-SHA256 PAN token                  2.23 us
+engine 0200, sync=OFF, batch 32       54.39 us
+engine 0200, sync=FULL, batch 32      94.33 us
+
+ARQC verify (MK + SK + MAC)           10.56 us
+ARPC                                   1.04 us
+SHA-256 of request                     1.80 us
+HMAC-SHA256 PAN token                  2.55 us
+engine 0200, sync=OFF, batch 32       55.64 us
+engine 0200, sync=FULL, batch 32     106.43 us
+

@@ -1,0 +1,92 @@
+name: ci
+on: [push, pull_request, workflow_dispatch]
+
+env:
+  DEPS: cmake ninja-build g++ libssl-dev libsqlite3-dev python3-cryptography
+
+jobs:
+  test:
+    runs-on: ubuntu-24.04
+    defaults: { run: { shell: bash } }   # -eo pipefail, so "| tee" cannot hide a failure
+    steps:
+      - uses: actions/checkout@v4
+      - name: deps
+        run: sudo apt-get update -qq && sudo apt-get install -y -qq $DEPS
+      - name: build (hardened release)
+        run: bash scripts/build.sh release
+      - name: unit tests
+        run: ~/eah-build/release/unit_tests | tee -a results-ci.txt
+      - name: EMV crypto cross-check vs independent Python implementation
+        run: ~/eah-build/release/eah-admin vectors 5000 | python3 tools/crosscheck_arqc.py | tee -a results-ci.txt
+      - name: golden regression transcript
+        run: bash scripts/regress.sh | tee -a results-ci.txt
+      - name: chaos (safe policy) must reconcile exactly
+        run: |
+          bash scripts/chaos.sh safe 20 16 500 ci
+          grep -q ' 0 phantom approvals, 0 orphan debits' results/ci/chaos-safe.txt
+      - name: chaos (naive control) must find orphan debits
+        run: |
+          bash scripts/chaos.sh naive 20 16 500 ci
+          ! grep -q ' 0 orphan debits' results/ci/chaos-naive.txt
+      - name: no full PAN at rest or in logs
+        run: bash scripts/pan_scan.sh ~/eah-run/chaos-safe 1000 | tee -a results-ci.txt
+      - name: mutation testing of the regression suite
+        run: bash scripts/mutants.sh ci
+      - name: benchmarks
+        run: bash scripts/bench.sh ci 8
+      - name: summary
+        if: always()
+        run: |
+          { echo '### emv-auth-host CI'; echo '```'; cat results-ci.txt results/ci/*.txt 2>/dev/null; echo '```'; } >> "$GITHUB_STEP_SUMMARY"
+      - uses: actions/upload-artifact@v4
+        if: always()
+        with: { name: results-ci, path: "results/ci\nresults-ci.txt" }
+
+  sanitizers:
+    runs-on: ubuntu-24.04
+    defaults: { run: { shell: bash } }
+    env: { ASAN_OPTIONS: "detect_leaks=1:halt_on_error=1", UBSAN_OPTIONS: "print_stacktrace=1:halt_on_error=1" }
+    steps:
+      - uses: actions/checkout@v4
+      - name: deps
+        run: sudo apt-get update -qq && sudo apt-get install -y -qq $DEPS
+      - name: ASan + UBSan build
+        run: bash scripts/build.sh asan
+      - name: unit tests
+        run: ~/eah-build/asan/unit_tests
+      - name: golden transcript with the ASan server
+        run: BIN=$HOME/eah-build/asan bash scripts/regress.sh
+      - name: chaos with the ASan server
+        run: |
+          BIN=$HOME/eah-build/asan bash scripts/chaos.sh safe 5 8 200 asan
+          grep -q ' 0 phantom approvals, 0 orphan debits' results/asan/chaos-safe.txt
+          ! grep -E "Sanitizer|runtime error" ~/eah-run/chaos-safe/server.err ~/eah-run/regress/server.err
+
+  fuzz:
+    runs-on: ubuntu-24.04
+    defaults: { run: { shell: bash } }
+    steps:
+      - uses: actions/checkout@v4
+      - name: deps
+        run: sudo apt-get update -qq && sudo apt-get install -y -qq $DEPS clang-18 libclang-rt-18-dev
+      - name: libFuzzer, 120 s per target
+        env: { CLANG: clang-18, CLANGXX: clang++-18 }
+        run: bash scripts/fuzz.sh 120 ci
+      - uses: actions/upload-artifact@v4
+        if: always()
+        with: { name: fuzz-ci, path: "results/ci\n~/eah-run/fuzz_*.log\n~/eah-run/crash-*" }
+
+  container:
+    runs-on: ubuntu-24.04
+    defaults: { run: { shell: bash } }
+    steps:
+      - uses: actions/checkout@v4
+      - name: deps (host-side test tools)
+        run: sudo apt-get update -qq && sudo apt-get install -y -qq $DEPS
+      - name: build tools + image
+        run: |
+          bash scripts/build.sh release
+          docker build -t eah:ci .
+          docker image ls eah:ci --format 'image size: {{.Size}}'
+      - name: same golden transcript against the container
+        run: DOCKER_IMAGE=eah:ci bash scripts/regress.sh
