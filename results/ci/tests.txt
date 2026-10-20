@@ -1,0 +1,21 @@
+ok   luhn
+ok   pan_mask_and_token
+ok   iso_roundtrip
+ok   iso_secondary_bitmap
+ok   iso_decode_errors
+ok   iso_llvar_limits
+ok   tlv_parse_forms
+ok   tlv_errors
+ok   tlv_put_roundtrip
+ok   des_known_answer
+ok   arqc_and_arpc_properties
+ok   engine_approve_dup_replay
+ok   engine_atc_replay_and_bad_arqc
+ok   engine_reversal_idempotent
+ok   engine_funds_and_limits
+ok   engine_never_answers_a_response
+ok   engine_no_pan_in_db
+17 tests, 1091 checks, 0 failed
+crosscheck: 5000 vectors, mk/sk/arqc/arpc all match
+golden: 40 steps match
+pan_scan: 1000 PANs searched in 2 files (3829007 bytes): 0 full-PAN hits; masked PANs in log: 7999; positive control: 1000/1000 hits

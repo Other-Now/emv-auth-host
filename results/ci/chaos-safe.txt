@@ -1,0 +1,10 @@
+# chaos policy=safe kills=11 conns=16 txns/conn=500 fault: 2% delayed 600ms (timeout 300ms), 1% dropped
+policy=safe conns=16 txns=8000 approved=7879 timeouts=257 retransmits=151 resolved_by_retransmit=136 reversals_sent=149 reversal_25=1 stale_discarded=0 reconnects=316
+integrity_check: ok
+balance recon: 1000 accounts, 0 mismatched
+  APPROVED  APPROVED                     7879
+  REVERSED  APPROVED                     120
+  0400      ORIG_NOT_FOUND               1
+  0400      REVERSED                     120
+terminal recon: 8000 ledger lines, 7879 terminal-approved, 7879 host-approved, 0 phantom approvals, 0 orphan debits
+recon_exit=0

@@ -31,7 +31,7 @@ balance can't go negative even if the code is wrong), the UNIQUE idempotency key
 ## Results
 
 Local numbers come from WSL2 on an i5-9300H (4 vCPU) with ext4. Raw output is in
-[`results/local/`](results/local/); the CI run's output is in the workflow artifacts.
+[`results/local/`](results/local/); CI output is in [`results/ci/`](results/ci/).
 
 **Correctness**
 
@@ -67,6 +67,11 @@ one request in flight, at `synchronous=FULL` (an fsync per commit).
 | 1 | 911 TPS, p50 0.94 ms | 968 TPS | – (batch is always 1) |
 | 8 | 2,727 TPS, p50 2.7 ms | 920 TPS | 3.0× |
 | 32 | 3,487 TPS, p50 7.0 ms | 439 TPS, p50 57 ms | 7.9× |
+
+On the GitHub Actions runner (AMD EPYC 9V45, where fsync is ~0.2 ms) the same matrix gives
+4,636 / 10,831 / 14,656 TPS with group commit against 4,819 / 5,535 / 5,603 without: 2.0× at 8
+connections and 2.6× at 32. The faster the fsync, the less there is to amortise. CI chaos runs gave
+the same picture: safe 0 phantom / 0 orphan over 11 kills, naive control 255 orphan debits.
 
 Without batching, throughput is pinned near 1/fsync and gets *worse* as contention grows. WSL fsync
 timing is noisy: an earlier trial of the 32-connection cell gave 4,991 vs 885 TPS. `synchronous=NORMAL`
@@ -107,7 +112,10 @@ both would live in an HSM.
 - **Container:** builds the image and runs the golden transcript against it.
 
 [`codeql.yml`](.github/workflows/codeql.yml) runs CodeQL `security-extended` SAST over the C/C++
-code. Binaries are built with FORTIFY_SOURCE, stack protector, PIE and full RELRO.
+code. Its first run raised 3 alerts. One was real and is fixed: the transaction log was created via
+`fopen()`, i.e. world-readable under the default umask, and is now opened `0640`. The other two were
+triaged and dismissed: an operator-supplied path in the admin CLI, and DES in the known-answer test,
+which EMV mandates. Binaries are built with FORTIFY_SOURCE, stack protector, PIE and full RELRO.
 
 ## Scope and limits
 

@@ -1,0 +1,14 @@
+skip duplicate detection                       unit=FAIL golden=FAIL killed
+no ATC replay check                            unit=FAIL golden=FAIL killed
+ARQC compare ignores last byte                 unit=FAIL golden=FAIL killed
+skip DE4 vs 9F02 check                         unit=pass golden=FAIL killed
+reversal credits twice                         unit=FAIL golden=FAIL killed
+limit check off by one                         unit=FAIL golden=pass killed
+Luhn not checked                               unit=pass golden=FAIL killed
+expiry check inverted boundary                 unit=pass golden=FAIL killed
+TLV accepts duplicate tags                     unit=FAIL golden=FAIL killed
+LLVAR max not enforced in decode (EQUIVALENT)  unit=pass golden=pass survived (equivalent: check_value() re-checks the same bound)
+variable-length max not enforced anywhere      unit=FAIL golden=pass killed
+session key uses wrong ATC byte order          unit=pass golden=FAIL killed
+never answer 0800                              unit=pass golden=FAIL killed
+mutants: 12/13 killed, 1 equivalent, 0 survived

@@ -157,7 +157,10 @@ int main(int argc, char** argv) {
     if (!o.today.empty()) cfg.today_yymm = o.today;
     FILE* log = nullptr;
     if (!o.log_path.empty()) {
-        log = std::fopen(o.log_path.c_str(), "a");
+        // Transaction logs are cardholder data (even masked): owner + group
+        // read only, never the 0666 & umask that fopen() would create.
+        int lfd_log = open(o.log_path.c_str(), O_WRONLY | O_APPEND | O_CREAT | O_CLOEXEC, 0640);
+        log = lfd_log >= 0 ? fdopen(lfd_log, "a") : nullptr;
         if (!log) {
             std::perror("log");
             return 1;

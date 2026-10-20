@@ -1,0 +1,14 @@
+# 2026-10-20T09:12:55Z 6.17.0-1022-azure cpu: AMD EPYC 9V45 96-Core Processor nproc=4
+# fs: ext4 ; 8s per cell; 1000 cards
+sync=full group_commit=on conns=1 txns=37091 seconds=8.0 tps=4636 p50_us=180 p90_us=220 p99_us=842 p999_us=1345 max_us=22325 approved=37091 other=0 errors=0 batches=37091 msgs=37091 max_batch=1
+sync=full group_commit=on conns=8 txns=86648 seconds=8.0 tps=10831 p50_us=681 p90_us=864 p99_us=2729 p999_us=4787 max_us=20791 approved=86648 other=0 errors=0 batches=18726 msgs=86648 max_batch=8
+sync=full group_commit=on conns=32 txns=117264 seconds=8.0 tps=14656 p50_us=1471 p90_us=4069 p99_us=8037 p999_us=11128 max_us=22189 approved=117264 other=0 errors=0 batches=4254 msgs=117264 max_batch=32
+sync=full group_commit=off conns=1 txns=38550 seconds=8.0 tps=4819 p50_us=181 p90_us=210 p99_us=704 p999_us=1174 max_us=24580 approved=38550 other=0 errors=0 batches=38550 msgs=38550 max_batch=1
+sync=full group_commit=off conns=8 txns=44287 seconds=8.0 tps=5535 p50_us=1438 p90_us=1716 p99_us=3436 p999_us=9125 max_us=47033 approved=44287 other=0 errors=0 batches=44287 msgs=44287 max_batch=8
+sync=full group_commit=off conns=32 txns=44844 seconds=8.0 tps=5603 p50_us=4723 p90_us=9179 p99_us=12339 p999_us=22056 max_us=34167 approved=44844 other=0 errors=0 batches=44844 msgs=44844 max_batch=32
+sync=normal group_commit=on conns=1 txns=59047 seconds=8.0 tps=7377 p50_us=71 p90_us=84 p99_us=219 p999_us=8333 max_us=22490 approved=59047 other=0 errors=0 batches=59047 msgs=59047 max_batch=1
+sync=normal group_commit=on conns=8 txns=83726 seconds=8.0 tps=10466 p50_us=378 p90_us=542 p99_us=10653 p999_us=12092 max_us=20622 approved=83726 other=0 errors=0 batches=18546 msgs=83726 max_batch=8
+sync=normal group_commit=on conns=32 txns=101988 seconds=8.0 tps=12733 p50_us=1131 p90_us=5778 p99_us=19591 p999_us=23234 max_us=52323 approved=101988 other=0 errors=0 batches=3665 msgs=101988 max_batch=32
+sync=normal group_commit=off conns=1 txns=59499 seconds=8.0 tps=7434 p50_us=72 p90_us=84 p99_us=201 p999_us=8377 max_us=12113 approved=59499 other=0 errors=0 batches=59499 msgs=59499 max_batch=1
+sync=normal group_commit=off conns=8 txns=60456 seconds=8.0 tps=7552 p50_us=449 p90_us=560 p99_us=12690 p999_us=13934 max_us=21341 approved=60456 other=0 errors=0 batches=60456 msgs=60456 max_batch=8
+sync=normal group_commit=off conns=32 txns=58044 seconds=8.0 tps=7255 p50_us=1593 p90_us=13702 p99_us=15565 p999_us=19768 max_us=23698 approved=58044 other=0 errors=0 batches=58044 msgs=58044 max_batch=32

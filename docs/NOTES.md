@@ -145,7 +145,7 @@ terminal ──TCP, 2-byte len──► poll() loop ──► AuthHost::process(
 - **Fuzzing:** libFuzzer with ASan/UBSan on the ISO decoder (round-trip property), the TLV parser
   (values in bounds, no duplicates) and the whole engine (responses decode, recon holds). No crashes
   found.
-- **Security scans:** CodeQL `security-extended` in CI, the SAST role Checkmarx plays. The build is
+- **Security scans:** CodeQL `security-extended` in CI, the SAST role Checkmarx plays. Its first run raised 3 alerts. One was real and is fixed: the log was created world-readable via fopen, and is now `open(..., 0640)`. Two were triaged as false positives: an operator CLI path, and the DES known-answer test. The build is
   hardened: FORTIFY, stack protector, full RELRO, PIE. **Snyk is not used** — there are no
   third-party packages beyond distro OpenSSL/SQLite to scan.
 
